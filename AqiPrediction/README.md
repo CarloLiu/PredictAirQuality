@@ -8,7 +8,7 @@ Please make sure that you visit the website using the **Google kernel browser**.
 ### how to deploy it locally?
 The project is based on Java Web, you can deploy the war file to the server that you want, such as Tomcat or GlassFish.
 
-However, the project should be deployed to the context "/prediction", or it will have some trouble.
+However, the project should be deployed to the context "/aqiPrediction", or it will have some trouble.
 
 ### Data Source
 The historical data is all crawled from the website [http://beijingair.sinaapp.com/](http://beijingair.sinaapp.com/)
