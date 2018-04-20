@@ -57,27 +57,20 @@ public class HttpUtils {
         attributes.add(new Attribute("Hour"));
         attributes.add(new Attribute("City", values));
         attributes.add(new Attribute("Site", values2));
-        attributes.add(new Attribute("MaxAqi"));
+        attributes.add(new Attribute("preMeanAqi"));
+        attributes.add(new Attribute("preMeanPm25"));
+        attributes.add(new Attribute("preMeanPm10"));
+        attributes.add(new Attribute("preMeanCo"));
+        attributes.add(new Attribute("preMeanNo2"));
+        attributes.add(new Attribute("preMeanOzone1hour"));
+        attributes.add(new Attribute("preMeanSo2"));
         attributes.add(new Attribute("MeanAqi"));
-        attributes.add(new Attribute("MinAqi"));
-        attributes.add(new Attribute("MaxPm25"));
         attributes.add(new Attribute("MeanPm25"));
-        attributes.add(new Attribute("MinPm25"));
-        attributes.add(new Attribute("MaxPm10"));
         attributes.add(new Attribute("MeanPm10"));
-        attributes.add(new Attribute("MinPm10"));
-        attributes.add(new Attribute("MaxCo"));
         attributes.add(new Attribute("MeanCo"));
-        attributes.add(new Attribute("MinCo"));
-        attributes.add(new Attribute("MaxNo2"));
         attributes.add(new Attribute("MeanNo2"));
-        attributes.add(new Attribute("MinNo2"));
-        attributes.add(new Attribute("MaxOzone1hour"));
         attributes.add(new Attribute("MeanOzone1hour"));
-        attributes.add(new Attribute("MinOzone1hour"));
-        attributes.add(new Attribute("MaxSo2"));
         attributes.add(new Attribute("MeanSo2"));
-        attributes.add(new Attribute("MinSo2"));
         attributes.add(new Attribute("class", values3));
 
         instances = new Instances("data", attributes, 0);
@@ -156,7 +149,7 @@ public class HttpUtils {
             day5Before = getDaybefore(day4Before);
 
 
-            System.out.println(day1Before + " "+day2Before + " " + day3Before);
+            System.out.println(day1Before + " " + day2Before + " " + day3Before);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -167,6 +160,165 @@ public class HttpUtils {
         List<InstanceObject> day3BeforeList = getInstanceFromUrl(day3Before, locations);
         List<InstanceObject> day4BeforeList = getInstanceFromUrl(day4Before, locations);
         List<InstanceObject> day5BeforeList = getInstanceFromUrl(day5Before, locations);
+
+        // new model parameter
+        List<List<InstanceObject>> lists = new ArrayList<>();
+        lists.add(day1BeforeList);
+        lists.add(day2BeforeList);
+        lists.add(day3BeforeList);
+        lists.add(day4BeforeList);
+        lists.add(day5BeforeList);
+
+        boolean isfind = false;
+        double preMeanAqi = -1;
+        double preMeanPm25 = -1;
+        double preMeanPm10 = -1;
+        double preMeanCo = -1;
+        double preMeanNo2 = -1;
+        double preMeanOzone = -1;
+        double preMeanSo2 = -1;
+
+        //preAqi
+        for (List<InstanceObject> iobList : lists) {
+            if (isfind) break;
+            preMeanAqi = 0;
+            int count = 0;
+            for (int i = 0; i < 24; i++) {
+                InstanceObject iob = iobList.get(i);
+                if (!iob.isTag()) continue;
+                if (iob.getAqi() != -1) {
+                    isfind = true;
+                    preMeanAqi += iob.getAqi();
+                    count++;
+                }
+            }
+            if (count != 0) {
+                preMeanAqi = preMeanAqi / count;
+            }
+
+        }
+
+        //prePm25
+        for (List<InstanceObject> iobList : lists) {
+            if (isfind) break;
+            preMeanPm25 = 0;
+            int count = 0;
+            for (int i = 0; i < 24; i++) {
+                InstanceObject iob = iobList.get(i);
+                if (!iob.isTag()) continue;
+                if (iob.getPm25() != -1) {
+                    isfind = true;
+                    preMeanPm25 += iob.getPm25();
+                    count++;
+                }
+            }
+            if (count != 0) {
+                preMeanPm25 = preMeanPm25 / count;
+            }
+
+        }
+
+        //Pm10
+        for (List<InstanceObject> iobList:lists){
+            if(isfind) break;
+            preMeanPm10 = 0;
+            int count = 0;
+            for(int i=0;i<24;i++){
+                InstanceObject iob = iobList.get(i);
+                if(!iob.isTag()) continue;
+                if(iob.getPm10() != -1){
+                    isfind = true;
+                    preMeanPm10 += iob.getPm10();
+                    count++;
+                }
+            }
+            if(count!=0){
+                preMeanPm10 = preMeanPm10 / count;
+            }
+
+        }
+
+        // preCo
+        for (List<InstanceObject> iobList:lists){
+            if(isfind) break;
+            preMeanCo = 0;
+            int count = 0;
+            for(int i=0;i<24;i++){
+                InstanceObject iob = iobList.get(i);
+                if(!iob.isTag()) continue;
+                if(iob.getCo() != -1){
+                    isfind = true;
+                    preMeanCo += iob.getCo();
+                    count++;
+                }
+            }
+            if(count!=0){
+                preMeanCo = preMeanCo / count;
+            }
+
+        }
+
+        //So2
+        for (List<InstanceObject> iobList:lists){
+            if(isfind) break;
+            preMeanSo2 = 0;
+            int count = 0;
+            for(int i=0;i<24;i++){
+                InstanceObject iob = iobList.get(i);
+                if(!iob.isTag()) continue;
+                if(iob.getSo2() != -1){
+                    isfind = true;
+                    preMeanSo2 += iob.getSo2();
+                    count++;
+                }
+            }
+            if(count!=0){
+                preMeanSo2 = preMeanSo2 / count;
+            }
+
+        }
+
+        for (List<InstanceObject> iobList:lists){
+            if(isfind) break;
+            preMeanNo2 = 0;
+            int count = 0;
+            for(int i=0;i<24;i++){
+                InstanceObject iob = iobList.get(i);
+                if(!iob.isTag()) continue;
+                if(iob.getNo2() != -1){
+                    isfind = true;
+                    preMeanNo2 += iob.getNo2();
+                    count++;
+                }
+            }
+            if(count!=0){
+                preMeanNo2 = preMeanNo2 / count;
+            }
+
+        }
+
+        for (List<InstanceObject> iobList:lists){
+            if(isfind) break;
+            preMeanOzone = 0;
+            int count = 0;
+            for(int i=0;i<24;i++){
+                InstanceObject iob = iobList.get(i);
+                if(!iob.isTag()) continue;
+                if(iob.getOzone() != -1){
+                    isfind = true;
+                    preMeanOzone += iob.getOzone();
+                    count++;
+                }
+            }
+            if(count!=0){
+                preMeanOzone = preMeanOzone / count;
+            }
+
+        }
+
+
+
+
 
         for (int i = 0; i < 24; i++) {
             DenseInstance instance = new DenseInstance(28);
@@ -219,6 +371,7 @@ public class HttpUtils {
             double meanOzone;
             double sumOzone = 0;
             double countOzone = 0;
+
 
             for (InstanceObject o : iobList) {
                 if (!o.isTag()) continue;
@@ -306,28 +459,21 @@ public class HttpUtils {
             instance.setValue(3, i);
             instance.setValue(4, "北京");
             instance.setValue(5, locations);
-            instance.setValue(6, maxaqi);
-            instance.setValue(7, meanaqi);
-            instance.setValue(8, minaqi);
-            instance.setValue(9, maxPm25);
-            instance.setValue(10, meanPm25);
-            instance.setValue(11, minPm25);
-            instance.setValue(12, maxPm10);
-            instance.setValue(13, meanPm10);
-            instance.setValue(14, minPm10);
-            instance.setValue(15, maxCo);
+            instance.setValue(6,preMeanAqi);
+            instance.setValue(7,preMeanPm25);
+            instance.setValue(8,preMeanPm10);
+            instance.setValue(9,preMeanCo);
+            instance.setValue(10,preMeanNo2);
+            instance.setValue(11,preMeanOzone);
+            instance.setValue(12,preMeanSo2);
+            instance.setValue(13, meanaqi);
+            instance.setValue(14, meanPm25);
+            instance.setValue(15, meanPm10);
             instance.setValue(16, meanCo);
-            instance.setValue(17, minCo);
-            instance.setValue(18, maxNo2);
-            instance.setValue(19, meanNo2);
-            instance.setValue(20, minNo2);
-            instance.setValue(21, maxOzone);
-            instance.setValue(22, meanOzone);
-            instance.setValue(23, minOzone);
-            instance.setValue(24, maxSo2);
-            instance.setValue(26, meanSo2);
-            instance.setValue(26, minSo2);
-            instance.setValue(27, "良");
+            instance.setValue(17, meanNo2);
+            instance.setValue(18, meanOzone);
+            instance.setValue(19, meanSo2);
+            instance.setValue(20, "良");
 
             classifyResult.add(classifyData(instance));
         }
@@ -341,7 +487,7 @@ public class HttpUtils {
         try {
 
 
-            return 7-(cls.classifyInstance(instance)+1);
+            return 7 - (cls.classifyInstance(instance) + 1);
             //System.out.println(cls.classifyInstance(instance));
             //System.out.println(instance.classValue());
 

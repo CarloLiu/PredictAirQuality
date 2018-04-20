@@ -205,7 +205,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/prediction/index",
+            url: "/aqiPrediction/index",
             data: {
                 year: $("#year").val(),
                 month: $("#month").val(),

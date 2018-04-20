@@ -66,7 +66,7 @@ public class MainServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        HttpUtils.initCls(this.getServletContext().getRealPath("")+"/j48.model");
+        HttpUtils.initCls(this.getServletContext().getRealPath("")+"/final.model");
 
     }
 
