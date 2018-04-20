@@ -3,7 +3,7 @@ The project is the the prediction of Air Qulity in Beijing.
 
 ## Proposal ##
 
-Detailed proposal.(href)
+Detailed proposal.(ML Proposal of Group Q.md)
 
 This project is to make air qulity predictions of 24 hours in the next day, given past 5 days air indexs of a appointed site.
 
