@@ -24,7 +24,7 @@ Characteristic variable generation:For each air index (pm2.5,p10,so2,co,o3.etc)�
 
 Model selcetion:We use Weka to test different typical classification model and select the best model(judged by Correctly Classified rate,Kappa statistic,Relative absolute error,Root mean squared error) After this step,we try different parameters and selected the best confidence index(J48).
 
-Selected model explain(video):We use a easy understanding way to introduce the selected model(Decision tree/C4.5).No complicated explanation,we use video and funny example making it clear to audience.Here is the link of the video: 
+Selected model explain(video):We use a easy understanding way to introduce the selected model(Decision tree/C4.5).No complicated explanation,we use video and funny example making it clear to audience.Here is the link of the video: **https://youtu.be/ac1xdH72CKA**
 
 Demo applicetion:We develop a demo to applicate the model.The demo is based on Java,and you can visit **the website using the link:http://sakura.p2p.15cm.net:7404/prediction/index**.
 You can select different site and date to show the prediction and real result.But for ‘today’,only the prediction result will be displayed. The main process of the demo code is:get the site and date,download the peivious five days and get selected site data,data clean and generate characteristic variable, use the model to predict,display the result on the Webpage.(**For details of the demo please check the file AqiPrediction**)
